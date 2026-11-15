@@ -7,11 +7,20 @@ import { simulate, SIMULATE_MODES } from "./simulate.js";
 import cors from "cors";
 
 const app = express();
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.FRONTEND_URL
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL
+  origin: allowedOrigins,
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 app.use(express.json({ limit: "100kb" }));
+
 
 // With no .env at all, fall back to the mock so `npm install && npm start` still runs.
 const PROVIDER = (process.env.AI_PROVIDER || (process.env.GEMINI_API_KEY ? "gemini" : "mock")).toLowerCase();
