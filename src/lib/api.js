@@ -2,7 +2,9 @@
  * The only place the browser talks to the server.
  * Every failure comes out as an AppError with a `kind` the UI can switch on.
  */
-
+const API_BASE = (
+  import.meta.env.VITE_API_URL || ""
+).replace(/\/$/, "");
 export class AppError extends Error {
   constructor(kind, message, { retryable = true, details = null } = {}) {
     super(message);
@@ -15,7 +17,7 @@ export class AppError extends Error {
 
 export async function fetchConfig() {
   try {
-    const res = await fetch("/api/config");
+    const res = await fetch(`${API_BASE}/api/config`);
     if (!res.ok) return null;
     return await res.json();
   } catch {
@@ -29,7 +31,7 @@ export async function fetchConfig() {
 export async function requestDeck({ text, count, simulate, signal }) {
   let res;
   try {
-    res = await fetch("/api/generate", {
+    res = await fetch(`${API_BASE}/api/generate`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text, count, simulate: simulate || undefined }),
