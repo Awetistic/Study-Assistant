@@ -4,8 +4,13 @@ import { ApiError } from "./errors.js";
 import { generateWithGemini } from "./providers/gemini.js";
 import { generateWithMock } from "./providers/mock.js";
 import { simulate, SIMULATE_MODES } from "./simulate.js";
+import cors from "cors";
 
 const app = express();
+app.use(cors({
+  origin: process.env.FRONTEND_URL
+}));
+
 app.use(express.json({ limit: "100kb" }));
 
 // With no .env at all, fall back to the mock so `npm install && npm start` still runs.
