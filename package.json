@@ -1,0 +1,29 @@
+{
+  "name": "study-assistant",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Paste notes, get AI-generated flashcards and a quiz you can actually study with.",
+  "scripts": {
+    "start": "concurrently -k -n api,web -c magenta,cyan \"npm:server\" \"npm:client\"",
+    "server": "node --watch server/index.js",
+    "client": "vite",
+    "build": "vite build",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "concurrently": "^9.1.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.0",
+    "vitest": "^2.1.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
